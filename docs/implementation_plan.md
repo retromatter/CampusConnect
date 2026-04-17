@@ -29,7 +29,7 @@
 | 0 | Project Setup | Setup | Done |
 | 1 | Class Schedule | Basic | Done |
 | 2 | Notes / To-Do List | Basic | Done |
-| 3 | Announcements (static) | Basic | Not Started |
+| 3 | Announcements (static) | Basic | Done |
 | 4 | Campus Map | Basic | Not Started |
 | 5 | Login System | Advanced | Not Started |
 | 6 | Online Database | Advanced | Not Started |
@@ -84,7 +84,7 @@
 ---
 
 ### Phase 3 — Announcements (Static)
-- **Status:** Not Started
+- **Status:** Done
 - **Commit:** `Phase 3: announcements screen (static data)`
 - **What happens:**
   - `src/screens/AnnouncementsScreen.js` created
