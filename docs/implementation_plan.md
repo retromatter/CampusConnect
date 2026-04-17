@@ -30,7 +30,7 @@
 | 1 | Class Schedule | Basic | Done |
 | 2 | Notes / To-Do List | Basic | Done |
 | 3 | Announcements (static) | Basic | Done |
-| 4 | Campus Map | Basic | Not Started |
+| 4 | Campus Map | Basic | Done |
 | 5 | Login System | Advanced | Not Started |
 | 6 | Online Database | Advanced | Not Started |
 | 7 | Internet Data / API | Advanced | Not Started |
@@ -96,7 +96,7 @@
 ---
 
 ### Phase 4 — Campus Map
-- **Status:** Not Started
+- **Status:** Done
 - **Commit:** `Phase 4: campus map screen`
 - **What happens:**
   - `src/screens/MapScreen.js` created
