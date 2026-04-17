@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { Text, FAB, Portal, Modal, TextInput, Button, Card, IconButton, SegmentedButtons } from 'react-native-paper';
+import { Text, FAB, Portal, Modal, TextInput, Button, Card, IconButton, Chip } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from '../theme';
 
 const STORAGE_KEY = '@campusconnect_schedule';
-const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export default function ScheduleScreen() {
   const [schedule, setSchedule] = useState([]);
@@ -15,7 +15,7 @@ export default function ScheduleScreen() {
   const [subject, setSubject] = useState('');
   const [time, setTime] = useState('');
   const [room, setRoom] = useState('');
-  const [selectedDay, setSelectedDay] = useState('Mon');
+  const [selectedDays, setSelectedDays] = useState(['Mon']);
 
   useEffect(() => {
     loadSchedule();
@@ -45,22 +45,27 @@ export default function ScheduleScreen() {
       return;
     }
 
-    const newClass = {
-      id: Date.now().toString(),
+    if (selectedDays.length === 0) {
+      Alert.alert('Missing Fields', 'Please select at least one day.');
+      return;
+    }
+
+    const newClasses = selectedDays.map(day => ({
+      id: Date.now().toString() + '-' + day,
       subject,
       time,
       room,
-      day: selectedDay,
-    };
+      day: day,
+    }));
 
-    const updatedSchedule = [...schedule, newClass];
+    const updatedSchedule = [...schedule, ...newClasses];
     saveSchedule(updatedSchedule);
 
     // Reset Form
     setSubject('');
     setTime('');
     setRoom('');
-    setSelectedDay('Mon');
+    setSelectedDays(['Mon']);
     setModalVisible(false);
   };
 
@@ -125,12 +130,26 @@ export default function ScheduleScreen() {
         <Modal visible={isModalVisible} onDismiss={() => setModalVisible(false)} contentContainerStyle={styles.modalContainer}>
           <Text variant="headlineSmall" style={styles.modalTitle}>Add New Class</Text>
           
-          <SegmentedButtons
-            value={selectedDay}
-            onValueChange={setSelectedDay}
-            buttons={DAYS.map(day => ({ value: day, label: day }))}
-            style={styles.segmentedButtons}
-          />
+          <View style={styles.daysGrid}>
+            {DAYS.map(day => (
+              <Chip
+                key={day}
+                mode="outlined"
+                selected={selectedDays.includes(day)}
+                onPress={() => {
+                  if (selectedDays.includes(day)) {
+                    setSelectedDays(selectedDays.filter(d => d !== day));
+                  } else {
+                    setSelectedDays([...selectedDays, day]);
+                  }
+                }}
+                style={[styles.dayChip, selectedDays.includes(day) && styles.dayChipSelected]}
+                textStyle={selectedDays.includes(day) && { color: 'white' }}
+              >
+                {day}
+              </Chip>
+            ))}
+          </View>
 
           <TextInput
             label="Subject (e.g. Math 101)"
@@ -218,8 +237,20 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     backgroundColor: 'white',
   },
-  segmentedButtons: {
+  daysGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
     marginBottom: 20,
+    justifyContent: 'center',
+  },
+  dayChip: {
+    width: '30%',
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  dayChipSelected: {
+    backgroundColor: theme.colors.primary,
   },
   modalActions: {
     flexDirection: 'row',
