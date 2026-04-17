@@ -26,7 +26,7 @@
 
 | Phase | Feature | Type | Status |
 |---|---|---|---|
-| 0 | Project Setup | Setup | Not Started |
+| 0 | Project Setup | Setup | Done |
 | 1 | Class Schedule | Basic | Not Started |
 | 2 | Notes / To-Do List | Basic | Not Started |
 | 3 | Announcements (static) | Basic | Not Started |
@@ -46,15 +46,15 @@
 ---
 
 ### Phase 0 — Project Setup
-- **Status:** Not Started
+- **Status:** Done
 - **Commit:** `Phase 0: project init`
-- **What happens:**
-  - `npx create-expo-app CampusConnect --template blank`
-  - All packages installed (React Navigation, React Native Paper, AsyncStorage, Firebase)
+- **What happened:**
+  - `npx create-expo-app . -y --template blank`
+  - Installed @react-navigation/native, bottom-tabs, stack, react-native-paper, async-storage, safe-area-context, screens, and gesture-handler.
   - Folder structure created (`src/screens`, `src/components`, `src/services`)
-  - `src/theme.js` created with shared colors
-  - App verified running on phone via Expo Go
-  - First push to GitHub
+  - `src/theme.js` created with primary color #1a73e8.
+  - App.js configured with navigation logic and PaperProvider.
+  - Placeholders created for all 4 basic screens.
 
 ---
 
