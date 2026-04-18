@@ -1,0 +1,24 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # every hour
+  workflow_dispatch:      # manual trigger
+
+jobs:
+  sync:
+    if: github.repository == 'retromatter/CampusConnect'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync from upstream (halangdon)
+        run: |
+          git remote add upstream https://github.com/halangdon/CampusConnect.git
+          git fetch upstream main
+          git reset --hard upstream/main
+          git push origin main --force

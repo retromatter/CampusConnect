@@ -44,6 +44,7 @@ yarn-error.*
 .claude/
 
 # Local config/credential notes
+docs/sync-upstream.yml
 docs/fb-config.txt
 docs/ow-api.txt
 docs/branch-ruleset.json
