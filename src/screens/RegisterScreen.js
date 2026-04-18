@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform, Alert } from 'react-native';
-import { Text, TextInput, Button, Card } from 'react-native-paper';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, Alert, ScrollView } from 'react-native';
+import { Text, TextInput, Button, Card, IconButton, Portal, Modal } from 'react-native-paper';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { theme } from '../theme';
@@ -11,6 +11,7 @@ export default function RegisterScreen({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isInfoVisible, setIsInfoVisible] = useState(false);
 
   const handleRegister = async () => {
     if (!email || !password || !confirmPassword) {
@@ -39,6 +40,15 @@ export default function RegisterScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
+      <View style={styles.header}>
+        <IconButton 
+          icon="information" 
+          iconColor="white" 
+          size={28} 
+          onPress={() => setIsInfoVisible(true)} 
+        />
+      </View>
+
       <View style={styles.formContainer}>
         <Text variant="displaySmall" style={styles.title}>CampusConnect</Text>
         <Text variant="bodyLarge" style={styles.subtitle}>Create your account</Text>
@@ -100,6 +110,58 @@ export default function RegisterScreen({ navigation }) {
           </Card.Content>
         </Card>
       </View>
+
+      <Portal>
+        <Modal 
+          visible={isInfoVisible} 
+          onDismiss={() => setIsInfoVisible(false)} 
+          contentContainerStyle={styles.modalContent}
+        >
+          <ScrollView>
+            <Text variant="headlineSmall" style={styles.modalTitle}>About CampusConnect</Text>
+            
+            <View style={styles.infoSection}>
+              <Text variant="labelLarge" style={styles.infoLabel}>Version</Text>
+              <Text variant="bodyMedium">1.0.0 (Stable Release)</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text variant="labelLarge" style={styles.infoLabel}>Purpose</Text>
+              <Text variant="bodyMedium">
+                Integrated digital hub for Informatics College Consolacion students to manage schedules, notes, and campus navigation.
+              </Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text variant="labelLarge" style={styles.infoLabel}>Key Features</Text>
+              <Text variant="bodyMedium">• Dynamic Class Scheduling</Text>
+              <Text variant="bodyMedium">• Personal To-Do Tracker</Text>
+              <Text variant="bodyMedium">• Real-time Campus Announcements</Text>
+              <Text variant="bodyMedium">• Google Maps Integration</Text>
+              <Text variant="bodyMedium">• Live Weather Updates (Mandaue/Consolacion)</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text variant="labelLarge" style={styles.infoLabel}>Developer</Text>
+              <Text variant="bodyMedium">Junlee Marc M Pepito</Text>
+              <Text variant="bodySmall" style={{ color: theme.colors.muted }}>App Dev Yr 2</Text>
+            </View>
+
+            <Button 
+              mode="contained" 
+              onPress={() => setIsInfoVisible(false)}
+              style={{ marginTop: 24 }}
+              buttonColor={theme.colors.primary}
+            >
+              Close
+            </Button>
+
+            <Text variant="labelSmall" style={styles.copyrightText}>
+              (c) 2026 | JUNL.EE
+            </Text>
+          </ScrollView>
+        </Modal>
+      </Portal>
     </KeyboardAvoidingView>
   );
 }
@@ -109,10 +171,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.primary,
   },
+  header: {
+    height: 60,
+    marginTop: Platform.OS === 'android' ? 30 : 50,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 10,
+  },
   formContainer: {
     flex: 1,
-    justifyContent: 'center',
     padding: theme.spacing.medium,
+    marginTop: -40, // Pull up to center better with the info icon above
   },
   title: {
     color: 'white',
@@ -144,5 +213,30 @@ const styles = StyleSheet.create({
     color: theme.colors.error,
     marginBottom: 16,
     textAlign: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 24,
+    margin: 20,
+    borderRadius: 16,
+    maxHeight: '80%',
+  },
+  modalTitle: {
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+    marginBottom: 20,
+  },
+  infoSection: {
+    marginBottom: 16,
+  },
+  infoLabel: {
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+    marginBottom: 4,
+  },
+  copyrightText: {
+    textAlign: 'center',
+    marginTop: 16,
+    color: theme.colors.muted,
   }
 });

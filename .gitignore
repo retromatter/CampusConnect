@@ -46,3 +46,8 @@ yarn-error.*
 # Local config/credential notes
 docs/fb-config.txt
 docs/ow-api.txt
+docs/branch-ruleset.json
+
+# SSH keys
+sync-deploy-key
+sync-deploy-key.pub
