@@ -44,8 +44,8 @@ To run this application on your local machine or physical device:
 ### Steps
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/campus-connect.git
-   cd campus-connect
+   git clone https://github.com/halangdon/CampusConnect.git
+   cd CampusConnect
    ```
 
 2. **Install Dependencies:**
